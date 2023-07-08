@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {Row,Col} from 'react-bootstrap'
 import Card from 'react-bootstrap/Card';
@@ -7,9 +7,20 @@ import ListGroup from 'react-bootstrap/ListGroup';
 function Details() {
 
     const location = useLocation();
+     const [latLng, setLatLng] = useState({})
     const navigate = useNavigate();
     const {name,lon,lat,formatted,address_line2,state,state_district,postcode} = location.state;
 
+     useEffect(()=> {
+        if('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition((position)=>{
+                setLatLng({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+            })
+        } 
+    },[]);
     
 
   return (
@@ -21,8 +32,8 @@ function Details() {
                 <Card.Header><h3>{name}</h3>  </Card.Header>
                     <ListGroup variant="flush"  style={{marginTop:'1rem'}}>
                         <ListGroup.Item > 
-                        <p>User Latitude : </p>
-                        <p>User Latitude : </p>
+                        <p>User Latitude : {latLng.lat} </p>
+                        <p>User Longitude :{latLng.lng} </p>
                         <p>User Formatted Address : </p>
                         </ListGroup.Item>
                         <ListGroup.Item>
