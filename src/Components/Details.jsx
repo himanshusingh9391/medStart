@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {Row,Col} from 'react-bootstrap'
 import Card from 'react-bootstrap/Card';
+import axios from 'axios';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 function Details() {
@@ -9,6 +10,7 @@ function Details() {
     const location = useLocation();
      const [latLng, setLatLng] = useState({})
     const navigate = useNavigate();
+    const [add, setAdd] = useState([]);
     const {name,lon,lat,formatted,address_line2,state,state_district,postcode} = location.state;
 
      useEffect(()=> {
@@ -21,6 +23,16 @@ function Details() {
             })
         } 
     },[]);
+
+    useEffect(()=>{
+        const API = `https://api.geoapify.com/v1/geocode/reverse?lat=17.5439872&lon=78.4203776&format=json&apiKey=a7f4f14fc5b540a1a1ba1015b4453e45`
+         axios.get(API).then(resp => {
+            const features = resp.data.results
+            const net = [];
+            features.map((feature)=> net.push(feature));
+            setAdd(net);
+        })
+    },[latLng]);
     
 
   return (
@@ -34,7 +46,7 @@ function Details() {
                         <ListGroup.Item > 
                         <p>User Latitude : {latLng.lat} </p>
                         <p>User Longitude :{latLng.lng} </p>
-                        <p>User Formatted Address : </p>
+                        <p>User Formatted Address : <div>{add.map((d)=>{return(<div>{d.neighbourhood}{d.formatted}</div>)})}</div></p> 
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <p>Hospital Latitude : {lat} </p>
