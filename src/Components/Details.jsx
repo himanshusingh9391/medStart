@@ -25,7 +25,7 @@ function Details() {
     },[]);
 
     useEffect(()=>{
-        const API = `https://api.geoapify.com/v1/geocode/reverse?lat=17.5439872&lon=78.4203776&format=json&apiKey=a7f4f14fc5b540a1a1ba1015b4453e45`
+        const API = `https://api.geoapify.com/v1/geocode/reverse?lat=${latLng.lat}&lon=${latLng.lng}&format=json&apiKey=a7f4f14fc5b540a1a1ba1015b4453e45`
          axios.get(API).then(resp => {
             const features = resp.data.results
             const net = [];
