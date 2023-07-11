@@ -46,7 +46,7 @@ function Home() {
                     return(
                         <div >
                         <Card onClick = {() => navigate('/details', { state: hospital})}style={{width:'80vh',marginLeft:'4rem'}}>
-                            <Card.Body style={{height:165,width:'70vh'}}>
+                            <Card.Body style={{height:165,width:'68vh'}}>
                                 <Card.Title>{hospital.name}</Card.Title>
                                 <Card.Text style={{marginTop:'0.5rem'}}>{hospital.address_line2}</Card.Text>
                                 <Card.Text style={{marginTop:'-1rem'}}>{hospital.categories}</Card.Text>
