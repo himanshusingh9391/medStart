@@ -33,6 +33,20 @@ function Details() {
             setAdd(net);
         })
     },[latLng]);
+
+     useEffect(()=>{
+        const GPI = `https://api.geoapify.com/v1/routing?waypoints=${latLng.lat},${latLng.lng}|${lat},${lon}&mode=drive&apiKey=a7f4f14fc5b540a1a1ba1015b4453e45`
+        axios.get(GPI).then((response)=>{
+            const featuresAr = response.data.features
+            const now = [];
+            featuresAr.map((feature)=> now.push(feature.properties));
+            setSub(now);
+
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    },[latLng]);
     
 
   return (
@@ -69,11 +83,21 @@ function Details() {
                     <div>
                         <h5>Direction To  {name}:</h5>
                     </div>
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            
-                        </ListGroup.Item>
-                    </ListGroup>
+                        <div>
+                            {sub.map((e,index)=>{
+                                return(
+                                    <div key={index}>       
+                                    {e.legs[0].steps.map((m)=>{
+                                        return(
+                                            <ul>
+                                                <li>{m.instruction.text}</li>
+                                            </ul>
+                                        )
+                                    })}
+                                    </div>
+                                )
+                            })}
+                        </div>
                 </Card>
             </Col>
         </Row>
